@@ -2,10 +2,10 @@
 
 /**
  * Plugin Name: Gallery Hierarchy
- * Plugin URI: http://github.com/weldstudio/wp-gallery-hierarchy
+ * Plugin URI: http://github.com/MeldCE/wp-gallery-hierarchy
  * Description: A simple image gallery where images are stored in hierarchical folders
- * Author: Weld Computer Engineering
- * Author URI: http://www.weldce.com
+ * Author: Meld Computer Engineering
+ * Author URI: http://www.meldce.com
  * Version: 0.1.4
  */
 
