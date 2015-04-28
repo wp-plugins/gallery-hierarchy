@@ -117,7 +117,7 @@ class GHierarchy {
 												'description' => __('Size to make the thumbnails.',
 														'gallery_hierarchy'),
 												'type' => 'dimensions',
-												'default' => array(200, 200)
+												'default' => array('width' => 200, 'height' => 200)
 										),
 										'crop_thumbnails' => array(
 												'title' => __('Crop Thumbnails', 'gallery_hierarchy'),
@@ -157,7 +157,7 @@ class GHierarchy {
 												'description' => __('Maximum size of the images.',
 														'gallery_hierarchy'),
 												'type' => 'dimensions',
-												'default' => array(1100, 1100)
+												'default' => array('width' => 1100, 'height' => 1100)
 										),
 										'folder_keywords' => array(
 												'title' => __('Folders to Tags', 'gallery_hierarchy'),
