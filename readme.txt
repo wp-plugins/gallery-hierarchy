@@ -5,7 +5,7 @@ Plugin link: http://www.weldce.com/gallery-hierarchy.php
 Tags: gallery, photo, hierarchy, thumbnail, album, shortcode, filter, search
 Requires at least: 3.8.0
 Tested up to: 3.9.2
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
