@@ -1,0 +1,75 @@
+.jFolders {
+  display: inline-block;
+}
+.jFolders > a {
+  /* New link */
+  margin-left: 5px;
+}
+.jFolders > div {
+  display: inline-block;
+  cursor: pointer;
+  background-color: #fff;
+  border: solid 1px #ccc;
+}
+.jFolders > div > label {
+  padding: 0px 5px;
+}
+.jFolders > div ul {
+  margin: 0px;
+}
+.jFolders > div li {
+  padding: 2px 5px;
+  margin: 0px;
+}
+.jFolders > div span {
+  margin-left: 5px;
+}
+.jFolders > div div.new,
+.jFolders > div div.del,
+.jFolders > div span {
+  display: inline-block;
+  padding: 2px 5px;
+}
+.jFolders > div div.new:before,
+.jFolders > div div.del:before {
+  font-family: "dashicons";
+}
+.jFolders > div div.new:before {
+  content: "\f133";
+}
+.jFolders > div div.del:before {
+  content: "\f182";
+}
+.jFolders > div .selected > label {
+  font-weight: bold;
+}
+.jFolders > div > div {
+  position: absolute;
+  z-index: 10;
+}
+.jFolders > div > div,
+.jFolders > div li > div {
+  margin: 0px;
+  padding: 2px;
+  background-color: #fff;
+}
+.jFolders > div > div,
+.jFolders > div li {
+  display: none;
+}
+.jFolders > div.expand > div,
+.jFolders > div.expand > div > ul > li,
+.jFolders > div li.expand > div > ul > li,
+.jFolders > div li.childSelected,
+.jFolders > div li.selected {
+  display: block;
+}
+.jFolders > div li:not(.expand) li:not(.selected):not(.childSelected) {
+  display: none;
+}
+.jFolders > div li.childSelected:not(.expand) {
+  font-style: italic;
+}
+.jFolders > div li.selected {
+  font-style: normal;
+}

@@ -1,10 +1,9 @@
-[Gallery Hierarchy (gallery-hierarchy)](https://github.com/weldstudio)
-====================
+[Gallery Hierarchy (gallery-hierarchy)](https://github.com/WeldCE/wp-gallery-hierarchy)
 A simplistic gallery plugin for Wordpress that stores images in a hierarchical folder structure.
 
-By [The Weld Studio](http://www.theweldstudio.com)
+By [Meld Computer Engineering](http://www.meldce.com)
 
-Support this opensource development [Paypal](http://gift.weldce.com) [Gittip](http://gittip.weldce.com)
+Support this opensource development [Paypal](http://gift.meldce.com) [Gittip](http://gittip.meldce.com)
 
 ## Introduction
 
@@ -31,8 +30,8 @@ This plugin contains no styling for the inserted images, so it is up to you or
 your theme to style them how you want.
 
 ## Releases
-- [v0.1-beta](https://github.com/weldstudio/wp-gallery-hierarchy/releases/tag/v0.1-beta)
-  [Release .zip file](https://github.com/weldstudio/wp-gallery-hierarchy/releases/download/v0.1-beta/gallery-hierarchy_v0.1-beta.zip)
+- [v0.1-beta](https://github.com/MeldCE/wp-gallery-hierarchy/releases/tag/v0.1-beta)
+  [Release .zip file](https://github.com/MeldCE/wp-gallery-hierarchy/releases/download/v0.1-beta/gallery-hierarchy_v0.1-beta.zip)
 
 ## Features
 - Hierarchical storage of images
@@ -65,9 +64,11 @@ The plugin has the following shortcodes:
 The following shortcode attributes are available for the included shortcodes
 - `id="<id1>,<id2>,..."` - list of images (some sort of query or list - see
   Image Selection below (`ghalbum` `ghthumbnail` `ghimage`)
-/* - `limit="<num>" - limit the number of images to <num>
+<!---
+- `limit="<num>" - limit the number of images to <num>
   (`ghalbum` `ghthumbnail` `ghimage`)
-- `sort=""` - way the images should be sorted*/
+- `sort=""` - way the images should be sorted
+--->
 - `group="<group1>"` - id for linking images to scroll through with lightbox
   (`ghthumbnail` `ghimage`)
 - `class="<class1> <class2> ...` - additional classes to put on the images
@@ -141,9 +142,13 @@ This project uses the Github projects mentioned below as Git submodules.
 To initialise them, you will need to run the command
 `git submodule update --init`
 from the root directory.
+- [Lightbox](https://github.com/lokesh/lightbox2.git)
 - [wp-settings](https://github.com/weldstudio/wp-settings)
 - [jquery-ui-multiselect-widget](https://github.com/ehynds/jquery-ui-multiselect-widget)
 - [jquery-Timepicker-Addon](https://github.com/trentrichardson/jQuery-Timepicker-Addon)
+You will also need to generate minified versions of the Javascript and CSS
+files by running the command
+`make minify`
 
 ## Use
 Once the plugin is activated in Wordpress, a Gallery Hierarchy menu will
@@ -190,13 +195,37 @@ the red X on the bottom left of the image. Be sure to click the Save button to
 save any changed exclusion settings.
 
 ### Including Image in Your Posts and Pages
-Currently, the only way to include images in your posts and pages is to either
-manually generate a shortcode, or use the shortcode builder in the Image
-Gallery. Don't worry, in the not too distant future, you will be able to do
-this from the edit page.
+You can include images in your posts and pages by either manually inserting a
+shortcode or by using the Insert Media dialog:
+- Click on the `Add Media` button just above the main text editor. This will
+  open the Insert Media dialog.
+- Click on the `Gallery Hierarchy` link to in the left hand column of the
+  Insert Media dialog. This will bring up the Gallery Hierarchy image browser.
+- Configure any or none of the filters to select certain images, including what
+  folders you want images to be displayed from, and click the `Filter` button.
+	This will retrieve the images you selected.
+- If you want to insert all the images you selected, simply click the `Insert
+  Images` button.
+- If you want to use only certain images from the ones shown, mouse over the
+  images you want to use and a green circle with a plus in it will be displayed
+	on the bottom right of the image. Click this to select the image for use.
+- Once you have selected all the images you want to use (you can select from
+  multiple pages and from multiple filters, you can preview all the images
+	that are selected by clicking on the `Show shortcode options` link, above the
+	`Filter` button and clicking the `Show currently selected link`.
+- You can rearrange your selection by clicking on the left and right buttons
+  on the top right of every selected image - the number displays what position
+	the image will be displayed.
+- To change how the images will be displayed, use the options displayed
+  when you click on the `Show shortcode options` link.
+
+### Custom Albums
+Custom albums can be created by implementing the GHAlbum interface. The
+specification for the interface can be found in the
+`gallery-hierarchy/lib/GHAlbum.php` file.
 
 ## Future Features (Todos)
-https://github.com/weldstudio/wp-gallery-hierarchy/issues
+https://github.com/MeldCE/wp-gallery-hierarchy/issues
 
 ## Changelog
-https://github.com/weldstudio/wp-gallery-hierarchy/releases
+https://github.com/MeldCE/wp-gallery-hierarchy/releases

@@ -1,17 +1,17 @@
 <?php
 //require_once('../lib/GHierarchy.php');
 
-class GHThumbnails implements GHAlbum {
+class GHFlexbox implements GHAlbum {
 	static function label() {
-		return 'thumbnails';
+		return 'flexbox';
 	}
 
 	static function name() {
-		return __('Thumbnails', 'gallery-hierarchy');
+		return __('Flexbox', 'gallery-hierarchy');
 	}
 
 	static function description() {
-		return __('Simple album for displaying a single or group of thumbnails.',
+		return __('Simple album for displaying a single or group of thumbnails using an HTML5 flexbox.',
 				'gallery-hierarchy');
 	}
 
@@ -26,6 +26,15 @@ class GHThumbnails implements GHAlbum {
 		if ($images) {
 			$html .= '<div' . ($options['class'] ? ' class="' . $options['class'] . '"'
 					: '') . '>';
+			$html .= '<style scoped>'
+					. 'div.flex {'
+					. 'display: flexbox;'
+					. ((isset($options['direction'])
+					&& in_array($options['direction'], array('column', 'row-reverse',
+					'column_reverse'))) ? 'flex-direction: ' . $options['direction'] : '')
+					. '}' /// @todo Add fixed width/height depending on column or row flex
+					. '</style>'
+					. '<div class="flex">';
 			foreach ($images as &$image) {
 				// Create link
 				$html .= '<a';
@@ -84,26 +93,12 @@ class GHThumbnails implements GHAlbum {
 				$html .= '</a>';
 			}
 
-			$html .= '</div>';
+			$html .= '</div></div>';
 		}
 
 		return $html;
 	}
 
 	static function printStyle() {
-?>
-.gh.ghthumb {
-	text-align: center;
-}
-
-.gh.ghthumb a {
-	display: inline-block;
-	border: solid 1px #ccc;
-	box-shadow: 3px 3px 3px #999;
-	margin: 5px;
-	padding: 5px;
-}
-
-<?php
 	}
 }

@@ -1,17 +1,17 @@
 <?php
 //require_once('../lib/GHierarchy.php');
 
-class GHThumbnails implements GHAlbum {
+class GHPackery implements GHAlbum {
 	static function label() {
-		return 'thumbnails';
+		return 'packery';
 	}
 
 	static function name() {
-		return __('Thumbnails', 'gallery-hierarchy');
+		return __('Packery', 'gallery-hierarchy');
 	}
 
 	static function description() {
-		return __('Simple album for displaying a single or group of thumbnails.',
+		return __('Simple album for displaying a single or group of thumbnails in a Packery.',
 				'gallery-hierarchy');
 	}
 
@@ -24,8 +24,10 @@ class GHThumbnails implements GHAlbum {
 	static function printAlbum(&$images, &$options) {
 		$html = '';
 		if ($images) {
-			$html .= '<div' . ($options['class'] ? ' class="' . $options['class'] . '"'
-					: '') . '>';
+			$id = uniqid();
+			//$html .= '<div' . ($options['class'] ? ' class="' . $options['class'] . '"'
+			//		: '') . ' id="' . $id . '">';
+			$html .= '<div id="' . $id . '">';
 			foreach ($images as &$image) {
 				// Create link
 				$html .= '<a';
@@ -64,7 +66,6 @@ class GHThumbnails implements GHAlbum {
 				}
 
 				$html .= GHierarchy::lightboxData($image, $options['group'], $caption);
-
 				$html .= '><img src="' . GHierarchy::getCImageURL($image) . '">';
 				
 				// Add comment
@@ -85,25 +86,21 @@ class GHThumbnails implements GHAlbum {
 			}
 
 			$html .= '</div>';
+			// Todo move to enqueue
+			$html .= '<script src="' . plugins_url('/lib/js/packery.pkgd.min.js', dirname(__FILE__)) . '"></script>';
+			$html .= '<script>'
+					. 'jQuery(function($) {'
+					. '$(\'#' . $id . '\').packery({'
+					. 'itemSelector: \'a\','
+					. 'gutter: 10'
+					. '});'
+					. '});'
+					. '</script>';
 		}
 
 		return $html;
 	}
 
 	static function printStyle() {
-?>
-.gh.ghthumb {
-	text-align: center;
-}
-
-.gh.ghthumb a {
-	display: inline-block;
-	border: solid 1px #ccc;
-	box-shadow: 3px 3px 3px #999;
-	margin: 5px;
-	padding: 5px;
-}
-
-<?php
 	}
 }

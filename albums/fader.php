@@ -1,17 +1,17 @@
 <?php
 //require_once('../lib/GHierarchy.php');
 
-class GHThumbnails implements GHAlbum {
+class GHFader implements GHAlbum {
 	static function label() {
-		return 'thumbnails';
+		return 'fader';
 	}
 
 	static function name() {
-		return __('Thumbnails', 'gallery-hierarchy');
+		return __('Fade Slideshow', 'gallery-hierarchy');
 	}
 
 	static function description() {
-		return __('Simple album for displaying a single or group of thumbnails.',
+		return __('Fade image slideshow using Simple Fade Slideshow.',
 				'gallery-hierarchy');
 	}
 
@@ -24,16 +24,25 @@ class GHThumbnails implements GHAlbum {
 	static function printAlbum(&$images, &$options) {
 		$html = '';
 		if ($images) {
-			$html .= '<div' . ($options['class'] ? ' class="' . $options['class'] . '"'
-					: '') . '>';
+			$id = uniqid();
+			// Add script
+			$html .= '<script src="' . plugins_url('js/fader.js', dirname(__FILE__))
+					. '"></script>';
+			$html .= '<div id="' . $id . '"'
+					. ($options['class'] ? ' class="' . $options['class'] . '"' : '')
+					. '>';
 			foreach ($images as &$image) {
 				// Create link
+				if (!$url = GHierarchy::getImageURL($image)) {
+					continue;
+				}
+				//$url = $image->path;
 				$html .= '<a';
 				switch ($options['link']) {
 					case 'none':
 						break;
 					case 'popup':
-						$html .= ' href="' . GHierarchy::getImageURL($image) . '"';
+						$html .= ' href="' . $url . '"';
 						break;
 					default:
 						/// @todo Add the ability to have a link per thumbnail
@@ -65,7 +74,10 @@ class GHThumbnails implements GHAlbum {
 
 				$html .= GHierarchy::lightboxData($image, $options['group'], $caption);
 
-				$html .= '><img src="' . GHierarchy::getCImageURL($image) . '">';
+				$html .= '><img src="'
+				// @todo Need to get cached for specific image size...?
+				. $url
+				. '">';
 				
 				// Add comment
 				switch ($options['caption']) {
@@ -85,25 +97,17 @@ class GHThumbnails implements GHAlbum {
 			}
 
 			$html .= '</div>';
+			$html .= '<script>jQuery(function($) {'
+					. '$(\'#' . $id . '\').faderAlbum();'
+					. '});'
+					. '</script>';
 		}
 
 		return $html;
 	}
 
 	static function printStyle() {
-?>
-.gh.ghthumb {
-	text-align: center;
-}
-
-.gh.ghthumb a {
-	display: inline-block;
-	border: solid 1px #ccc;
-	box-shadow: 3px 3px 3px #999;
-	margin: 5px;
-	padding: 5px;
-}
-
-<?php
+		?>
+		<?php
 	}
 }

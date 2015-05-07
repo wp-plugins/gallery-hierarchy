@@ -1,42 +1,21 @@
 <?php
-
 /**
- * Plugin Name: Gallery Hierarchy
- * Plugin URI: http://github.com/MeldCE/wp-gallery-hierarchy
- * Description: A simple image gallery where images are stored in hierarchical folders
- * Author: Meld Computer Engineering
- * Author URI: http://www.meldce.com
- * Version: 0.1.4
- */
-
+Plugin Name: Gallery Hierarchy
+Plugin URI: http://www.meldce.com/gallery-hierarchy
+Version: 0.2.0
+Description: A simple image gallery where images are stored in hierarchical folders.
+Author: Meld Computer Engineering
+Author URI: http://www.meldce.com
+Text Domain: gallery-hierarchy
+Tags: wordpress,gallery,images,hierarchy,photo,shortcode,filter,search,browser,upload
+Licence: GPL-3.0
+*/
+?>
+<?php
 if (!class_exists('GHierarchy')) {
 	require_once('lib/GHierarchy.php');
 	require_once('lib/GHAlbum.php');
-
-	/**
-	 * Scans through a given directory and includes all php files with a given
-	 * extension
-	 */
-	function gHIncludeFiles ($path, $extension='.php') {
-		$files = scandir($path);
-		$extLength = strlen($extension);
-
-		foreach ($files as $include) {
-			if (strpos($include, '.') !== 0) { // ignores dotfiles and self/parent directories
-				if (is_dir($include)) { // if a directory, iterate into
-					$newPath = $currentPath . $include . '/';
-					includeFiles($path, $extension);
-				} else {
-					if (!$extLength || substr($include, -$extLength) === $extension) {
-						try {
-							require_once($path.$include);
-						} catch (Exception $e) { // Silently fail if the import fails
-						}
-					}
-				}
-			}
-		}
-	}
+	require_once('lib/utils.php');
 
 	function gHierarchySetup() {
 		// Include so we have access to is_plugin_active
@@ -58,6 +37,7 @@ if (!class_exists('GHierarchy')) {
 			
 			add_action('wp_enqueue_scripts', array('GHierarchy', 'enqueue'));
 			add_action('admin_enqueue_scripts', array('GHierarchy', 'adminEnqueue'));
+			add_action('admin_print_scripts', array('GHierarchy', 'adminPrintInit'));
 
 			add_action('wp_head', array('GHierarchy', 'head'));
 			add_action('admin_head', array('GHierarchy', 'head'));
@@ -65,10 +45,16 @@ if (!class_exists('GHierarchy')) {
 			// Handle AJAX requests (from image browser)
 			add_action('wp_ajax_gh_gallery', array('GHierarchy', 'ajaxGallery'));
 			add_action('wp_ajax_gh_save', array('GHierarchy', 'ajaxSave'));
+			// Handle folder request
+			add_action('wp_ajax_gh_folder', array('GHierarchy', 'ajaxFolder'));
+			add_action('wp_ajax_gh_scan', array('GHierarchy', 'ajaxScan'));
+			add_action('wp_ajax_gh_upload', array('GHierarchy', 'ajaxUpload'));
 		
 			if (is_admin()) {
 				// Initialise
 				add_action('init', array('GHierarchy', 'adminInit'));
+
+				add_filter('media_upload_tabs', array('GHierarchy', 'uploadTabs'));
 			}
 		}
 	}
@@ -77,6 +63,9 @@ if (!class_exists('GHierarchy')) {
 	add_filter( 'plugin_row_meta', array('GHierarchy', 'pluginMeta'), 10, 2);
 
 	add_action('plugins_loaded', 'gHierarchySetup');
+	
+	//add_action('media_upload_ghierarchy', 'gHierarchyAddMediaTab');
+	add_action('media_upload_ghierarchy', array('GHierarchy', 'addMediaTab'));
 
 	// Action for rescan job
 	add_action('gh_rescan', array('GHierarchy', 'scan'));
@@ -84,3 +73,4 @@ if (!class_exists('GHierarchy')) {
 	/// @todo Add a hook for plugin deletion
 	register_activation_hook(__FILE__, array('GHierarchy', 'install'));
 }
+?>
